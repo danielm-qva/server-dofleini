@@ -1,8 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
-import {JWT_SECRETE} from '../utils/JsonWebTokenGenertate' ;
 
 export const isAutorizado = (req: Request, res: Response, next: NextFunction) => {  
+    console.log(req.body);
     const headersAuthorization = req.headers["authorization"];
     const toke = String(headersAuthorization?.split(" ")[1]);
     const beare = String(headersAuthorization?.split(" ")[0]);
@@ -11,7 +11,7 @@ export const isAutorizado = (req: Request, res: Response, next: NextFunction) =>
     } else{
 
       try {
-         const veriToken = jwt.verify(toke , JWT_SECRETE);
+         const veriToken = jwt.verify(toke , "asdq312qwecc$$^&**@(W)@www3gbtw2389/)(p222)");
             if(veriToken) next();
             else res.status(400).json({"mess": "Token not valid."});
       } catch (error) {

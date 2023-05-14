@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 
-export const JWT_SECRETE = "asdq312qwecc$$^&**@(W)@www3gbt";
+
+import 'dotenv/config';
+
+export const JWT_SECRETE = "asdq312qwecc$$^&**@(W)@www3gbtw2389/)(p222)"
 
 export class JsonWebTokenGenerate {
   username: string;
@@ -10,7 +13,6 @@ export class JsonWebTokenGenerate {
     this.username = username;
     this.fullname = fullname;
   }
-
   GenereateToken() {
     return jwt.sign(
       { username: this.username, fullname: this.fullname},

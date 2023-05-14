@@ -1,0 +1,49 @@
+
+import { Request, Response  } from "express";
+import surveyModel from "../model/survey.model";
+
+export class ControllerSurvey {
+
+  findAllSurvey = async (req: Request, res: Response) => {
+    const listSurvey = await surveyModel.find();
+       res.status(200).json(listSurvey);
+  };
+
+  createSurvey = async (req: Request, res: Response) => {
+    const { question } = req.body;
+    try {
+        const createSurvey = await surveyModel.create({question}).then().catch((error) => {
+          res.status(400).json({"Error" : error.errors});
+        })
+        return res.status(200).json({createSurvey});
+    
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  };
+
+  deleteSurvey = async (req: Request, res: Response) => {
+    const id = req.params['id'];
+    try {
+           const delteDrone =  await surveyModel.findByIdAndRemove(id);
+           if(delteDrone){
+                  res.status(200).json(delteDrone);
+               }
+    } catch (error) {
+           res.status(400).json({error});
+    }
+  };
+
+  updateSurvey = async (req: Request, res: Response) => {
+    const id = req.params['id'];
+       const droneupdate =  await surveyModel.findByIdAndUpdate(id , req.body , {new : true , upsert: true});
+        if(droneupdate){
+               res.status(200).json({droneupdate});
+        }
+        else{
+              res.status(400).json({"mensaje" : "Not fount"});
+        }
+  }
+
+
+}
