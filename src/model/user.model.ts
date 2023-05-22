@@ -1,3 +1,4 @@
+import  bycrypt  from 'bcrypt';
 
 import mongoose from "mongoose";
 
@@ -14,7 +15,7 @@ const User = new mongoose.Schema({
   },
   password: {
     type: String,
-    require: true
+    require: true,    
   },
   isActive: {
     type: Boolean,
@@ -24,6 +25,5 @@ const User = new mongoose.Schema({
   timestamps: true,
   versionKey: false,
 })
-
-
+ 
 export default mongoose.model("User", User);

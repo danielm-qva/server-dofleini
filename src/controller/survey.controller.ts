@@ -36,14 +36,30 @@ export class ControllerSurvey {
 
   updateSurvey = async (req: Request, res: Response) => {
     const id = req.params['id'];
-       const droneupdate =  await surveyModel.findByIdAndUpdate(id , req.body , {new : true , upsert: true});
-        if(droneupdate){
-               res.status(200).json({droneupdate});
+       const surveyUpdate =  await surveyModel.findByIdAndUpdate(id , req.body , {new : true , upsert: true});
+        if(surveyUpdate){
+               res.status(200).json({surveyUpdate});
         }
         else{
               res.status(400).json({"mensaje" : "Not fount"});
         }
   }
+    
+   updateIDBoto = async (req: Request, res: Response) => {
+    const id = req.params['id'];
+    const {idUser}  = req.body;
+    console.log(idUser);
+    const finSurvey = await surveyModel.findById(id);
+         if(finSurvey){
+              finSurvey.idBotosUser.push(idUser);
+               const newSurvey = await surveyModel.findByIdAndUpdate(id, finSurvey , {new : true , upsert: true});
+               console.log(newSurvey);
+                  res.status(200).json();
+         }
+         else{
+          res.status(400).json({"mensaje" : "Not foun"});
+         }
+   }
 
 
 }

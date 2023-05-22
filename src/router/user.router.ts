@@ -7,7 +7,7 @@ import { ControllerUser } from "../controller/user.controller";
 const userRouter = Router();
 const controlleruser = new ControllerUser() ;
 
-userRouter.get('/user', controlleruser.findAllUser);
+userRouter.get('/user',isAutorizado, controlleruser.findAllUser);
 userRouter.put('/user/:id', isAutorizado ,controlleruser.updateUser);
 userRouter.delete('/user/:id',isAutorizado , controlleruser.deleteUser);
 

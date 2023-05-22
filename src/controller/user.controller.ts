@@ -1,10 +1,10 @@
+import bycrypt  from 'bcrypt';
 import { Request, Response } from "express";
-
 import User from "../model/user.model";
 
 import { JsonWebTokenGenerate } from "../utils/JsonWebTokenGenertate";
+import {hashPassword} from "../utils/hashPassword";
 
-import bycrypt from 'bcrypt';
 
 export class ControllerUser {
   constructor() { }
@@ -32,8 +32,9 @@ export class ControllerUser {
 
   createUser = async (req: Request, res: Response) => {
     const { username, fullname, password } = req.body;
+     const haspassword =   await hashPassword(password);
     try {
-      const newUser = await User.create({ username, fullname, password }).then().catch((error) => {
+      const newUser = await User.create({ username, fullname, password: haspassword }).then().catch((error) => {
         res.status(400).json({ "Error": error });
       })
       return res.status(200).json(newUser);
@@ -68,10 +69,20 @@ export class ControllerUser {
 
   loginUser = async (req: Request, res: Response) => {
     const { username, password } = req.body;
+    console.log(req.body);
     const foundUser = await User.findOne({ username });
-    if (foundUser && foundUser.password == password) {
-      const jsonwebtoken = new JsonWebTokenGenerate(foundUser.username!, foundUser.fullname!);
-      return res.status(200).json({ "toke": jsonwebtoken.GenereateToken(), 'user': { username } });
+    if (foundUser) {
+       bycrypt.compare(password , foundUser.password!).then((ans) => {
+              if(ans){
+                const jsonwebtoken = new JsonWebTokenGenerate(foundUser.username!, foundUser.fullname!);
+                return res.status(200).json({ "toke": jsonwebtoken.GenereateToken(),  foundUser  });
+              }
+              else{
+                res.status(404).json({ 'mensg': "Ha ocurrido un Error 😢" });
+              }
+        }).catch(error => {
+          res.status(500).json(error);
+        })
     }
     else {
       res.status(404).json({ 'mensg': "Ha ocurrido un Error 😢" });

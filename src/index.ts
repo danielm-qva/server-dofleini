@@ -1,5 +1,7 @@
 import app from "./config/server.config";
+import { task } from "./job/job_priority";
 
 app.listen(3000 , () => {
-  console.log("Serer Runig");
+   task.start();
+   console.log("Serer Runig");
 })
