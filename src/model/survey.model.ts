@@ -23,6 +23,10 @@ const Survey = new mongoose.Schema({
   idBotosUser: {
     type: Array,
     default: []
+  },
+  isclose: {
+    type: Boolean,
+    default: false,
   }
 }, {
   timestamps: true,

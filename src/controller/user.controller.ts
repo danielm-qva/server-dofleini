@@ -14,21 +14,20 @@ export class ControllerUser {
     return res.status(200).json(listUser);
   };
 
-  // findOndeUser = (req: Request, res: Response) => {
-  //   const { id } = req.params;
-  //   try {
-  //     this.usecase
-  //       .findAUserById(-id)
-  //       .then((item) => {
-  //         return res.status(200).json(item);
-  //       })
-  //       .catch((error) => {
-  //         return res.status(400).json(error);
-  //       });
-  //   } catch (error) {
-  //     return res.status(500).json(error);
-  //   }
-  // };
+  findOndeUser = (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        User.findById(-id)
+        .then((item) => {
+          return res.status(200).json(item);
+        })
+        .catch((error) => {
+          return res.status(400).json(error);
+        });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  };
 
   createUser = async (req: Request, res: Response) => {
     const { username, fullname, password } = req.body;
@@ -69,7 +68,6 @@ export class ControllerUser {
 
   loginUser = async (req: Request, res: Response) => {
     const { username, password } = req.body;
-    console.log(req.body);
     const foundUser = await User.findOne({ username });
     if (foundUser) {
        bycrypt.compare(password , foundUser.password!).then((ans) => {

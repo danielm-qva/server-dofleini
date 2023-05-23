@@ -1,5 +1,3 @@
-import  bycrypt  from 'bcrypt';
-
 import mongoose from "mongoose";
 
 const User = new mongoose.Schema({
@@ -20,7 +18,7 @@ const User = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true,
-  }
+  },
 }, {
   timestamps: true,
   versionKey: false,

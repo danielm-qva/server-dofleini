@@ -48,7 +48,6 @@ export class ControllerSurvey {
    updateIDBoto = async (req: Request, res: Response) => {
     const id = req.params['id'];
     const {idUser}  = req.body;
-    console.log(idUser);
     const finSurvey = await surveyModel.findById(id);
          if(finSurvey){
               finSurvey.idBotosUser.push(idUser);
